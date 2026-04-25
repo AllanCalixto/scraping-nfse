@@ -283,3 +283,30 @@ def new_nfse_service(driver):
 
     time.sleep(2.5)
     return driver
+
+
+def new_nfse_valours(driver):
+    wait = WebDriverWait(driver, 20)
+    wait.until(lambda d: d.execute_script("return document.readyState") == "complete")
+    wait.until(
+        EC.presence_of_element_located((By.ID, "Valores_ValorServico"))
+    )
+
+    campo_valor_servico = wait.until(
+        EC.presence_of_element_located((By.ID, "Valores_ValorServico"))
+    )
+    driver.execute_script(
+        "arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});",
+        campo_valor_servico,
+    )
+    driver.execute_script("arguments[0].focus();", campo_valor_servico)
+    try:
+        campo_valor_servico.click()
+    except Exception:
+        driver.execute_script("arguments[0].click();", campo_valor_servico)
+
+    campo_valor_servico.clear()
+    campo_valor_servico.send_keys("0000")
+    campo_valor_servico.send_keys(Keys.TAB)
+
+    return driver
