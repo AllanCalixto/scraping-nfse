@@ -3,8 +3,10 @@ import os
 
 load_dotenv()
 
-CNPJ = os.getenv("CNPJ")
-SENHA = os.getenv("SENHA")
+CNPJ = (os.getenv("CNPJ") or "").strip()
+SENHA = (os.getenv("SENHA") or "").strip()
 
 if not CNPJ or not SENHA:
-    raise Exception("CNPJ ou SENHA não carregados do .env")
+    raise RuntimeError(
+        "Credenciais nao carregadas. Crie um arquivo .env na raiz com CNPJ e SENHA."
+    )
