@@ -309,4 +309,43 @@ def new_nfse_valours(driver):
     campo_valor_servico.send_keys("0000")
     campo_valor_servico.send_keys(Keys.TAB)
 
+
+    radio_tipo_tributo_3 = wait.until(
+        EC.presence_of_element_located(
+            (
+                By.CSS_SELECTOR,
+                "input[name='ValorTributos.TipoValorTributos'][value='3']",
+            )
+        )
+    )
+
+    driver.execute_script(
+        "arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});",
+        radio_tipo_tributo_3,
+    )
+
+    try:
+        radio_tipo_tributo_3.click()
+    except Exception:
+        driver.execute_script("arguments[0].click();", radio_tipo_tributo_3)
+
+    # Garantia extra (igual você já fez antes)
+    if not radio_tipo_tributo_3.is_selected():
+        driver.execute_script(
+            """
+            arguments[0].checked = true;
+            arguments[0].dispatchEvent(new Event('change', { bubbles: true }));
+            arguments[0].dispatchEvent(new Event('input', { bubbles: true }));
+            """,
+            radio_tipo_tributo_3,
+        )
+
+    driver.execute_script("document.querySelector('button[type=\"submit\"]').closest('form').submit();")
+
+
+    time.sleep(0.5)
+
+    
+
+
     return driver
